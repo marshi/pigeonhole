@@ -10,6 +10,9 @@
 // Apply the scala plugin to add support for Scala
 apply plugin: 'scala'
 
+sourceCompatibility = '1.8' // -source
+targetCompatibility = '1.8' // -target
+
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use 'maven central' for resolving your dependencies.
@@ -33,8 +36,22 @@ dependencies {
     compile 'com.twitter.finatra:finatra-root_2.11:2.0.0.M1'
     compile 'net.databinder.dispatch:dispatch-core_2.11:0.11.3'
     compile 'net.databinder.dispatch:dispatch-json4s-native_2.11:0.11.3'
+    compile 'org.postgresql:postgresql:9.4-1201-jdbc41'
+    compile 'com.typesafe.slick:slick_2.11:3.0.0'
+    compile 'com.typesafe.slick:slick-codegen_2.11:3.0.0'
+    compile 'com.typesafe:config:1.3.0'
+    compile 'com.zaxxer:HikariCP-java6:2.3.8'
+//    compile 'com.zaxxer:HikariCP:2.3.8'
+//    compile 'org.slf4j:slf4j-nop:1.7.12'
+//    compile 'ch.qos.logback:logback-classic:1.1.3'
+
     // We use Scalatest for testing our library
     testCompile 'junit:junit:4.11'
     testCompile 'org.scalatest:scalatest_2.11:2.2.0'
     testRuntime 'org.scala-lang.modules:scala-xml_2.11:1.0.2'
 }
+
+tasks.withType(ScalaCompile) {
+    scalaCompileOptions.useAnt = false
+}
+

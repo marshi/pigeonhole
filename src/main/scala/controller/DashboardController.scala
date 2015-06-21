@@ -8,8 +8,8 @@ import com.twitter.finatra.http.Controller
  */
 class DashboardController extends Controller {
 
-  get ("/helloworld") { request: Request =>
-    response.ok().body("hello pigeion")
+  get ("/dashboard") { request: Request =>
+    response.ok.view("dashboard.mustache", null)
   }
 
 }
