@@ -1,15 +1,14 @@
 package controller
 
-import java.rmi.activation.ActivationGroup_Stub
-
 import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
-import com.twitter.util.Config.intoList
-import entity.Tables.{HostMachineRow, HostMachine}
-import slick.backend.DatabaseConfig
-import slick.lifted.Query
+import entity.Tables.HostMachine
+import infrastructure.DbDriver
 import slick.driver.PostgresDriver.api._
-import scala.concurrent.ExecutionContext.Implicits.global
+
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
+import scala.util.{Failure, Success}
 
 /**
  * @author mukai_masaki on 2015/06/20.
@@ -17,14 +16,14 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class HostController extends Controller {
 
   get("/host/list") { request: Request =>
-    System.out.println("aiueo")
-    val db = Database.forConfig("db")
     val q = HostMachine.result
-    val r = db.stream(q)
-    r.map(_.foreach(t => println(t.name)))
-    println("____")
-
-    response.ok.view("host/list.mustache", null)
+    val future = DbDriver.db.run(q)
+    Await.ready(future, Duration.Inf)
+    future.value.get match {
+      case Success(hm) =>
+        response.ok.view("host/list.mustache", hm)
+      case Failure(hm) => println("fail")
+    }
   }
 
   post("/host/register") {request: Request =>
