@@ -2,7 +2,7 @@ package controller
 
 import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
-import entity.Tables.HostMachine
+import entity.Tables.{Project, Dashboard, HostMachine}
 import infrastructure.DbDriver
 import slick.driver.PostgresDriver.api._
 
@@ -16,8 +16,10 @@ import scala.util.{Failure, Success}
 class HostController extends Controller {
 
   get("/host/list") { request: Request =>
-    val q = HostMachine.result
-    val future = DbDriver.db.run(q)
+    val q = (Dashboard join HostMachine on (_.hostMachineId === _.id) join Project on ((tuple, p) => tuple._1.projectId === p.id)) map {
+      case (tuple, p) => (tuple._2.name, p.name)
+    }
+    val future = DbDriver.db.run(q.result)
     Await.ready(future, Duration.Inf)
     future.value.get match {
       case Success(hm) =>
