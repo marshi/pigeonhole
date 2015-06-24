@@ -14,7 +14,7 @@ trait Tables {
   import slick.jdbc.{GetResult => GR}
 
   /** DDL for all tables. Call .create to execute. */
-  lazy val schema = Dashboard.schema ++ HostMachine.schema ++ Project.schema
+  lazy val schema = Dashboard.schema ++ HostBranch.schema ++ HostMachine.schema ++ Project.schema
   @deprecated("Use .schema instead of .ddl", "3.0")
   def ddl = schema
 
@@ -43,6 +43,35 @@ trait Tables {
   }
   /** Collection-like TableQuery object for table Dashboard */
   lazy val Dashboard = new TableQuery(tag => new Dashboard(tag))
+
+  /** Entity class storing rows of table HostBranch
+   *  @param id Database column id SqlType(serial), AutoInc, PrimaryKey
+   *  @param branchName Database column branch_name SqlType(varchar), Length(128,true), Default(None)
+   *  @param hostMachineId Database column host_machine_id SqlType(int4), Default(None)
+   *  @param deploytime Database column deployTime SqlType(timestamptz), Default(None) */
+  case class HostBranchRow(id: Int, branchName: Option[String] = None, hostMachineId: Option[Int] = None, deploytime: Option[java.sql.Timestamp] = None)
+  /** GetResult implicit for fetching HostBranchRow objects using plain SQL queries */
+  implicit def GetResultHostBranchRow(implicit e0: GR[Int], e1: GR[Option[String]], e2: GR[Option[Int]], e3: GR[Option[java.sql.Timestamp]]): GR[HostBranchRow] = GR{
+    prs => import prs._
+    HostBranchRow.tupled((<<[Int], <<?[String], <<?[Int], <<?[java.sql.Timestamp]))
+  }
+  /** Table description of table host_branch. Objects of this class serve as prototypes for rows in queries. */
+  class HostBranch(_tableTag: Tag) extends Table[HostBranchRow](_tableTag, "host_branch") {
+    def * = (id, branchName, hostMachineId, deploytime) <> (HostBranchRow.tupled, HostBranchRow.unapply)
+    /** Maps whole row to an option. Useful for outer joins. */
+    def ? = (Rep.Some(id), branchName, hostMachineId, deploytime).shaped.<>({r=>import r._; _1.map(_=> HostBranchRow.tupled((_1.get, _2, _3, _4)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+
+    /** Database column id SqlType(serial), AutoInc, PrimaryKey */
+    val id: Rep[Int] = column[Int]("id", O.AutoInc, O.PrimaryKey)
+    /** Database column branch_name SqlType(varchar), Length(128,true), Default(None) */
+    val branchName: Rep[Option[String]] = column[Option[String]]("branch_name", O.Length(128,varying=true), O.Default(None))
+    /** Database column host_machine_id SqlType(int4), Default(None) */
+    val hostMachineId: Rep[Option[Int]] = column[Option[Int]]("host_machine_id", O.Default(None))
+    /** Database column deployTime SqlType(timestamptz), Default(None) */
+    val deploytime: Rep[Option[java.sql.Timestamp]] = column[Option[java.sql.Timestamp]]("deployTime", O.Default(None))
+  }
+  /** Collection-like TableQuery object for table HostBranch */
+  lazy val HostBranch = new TableQuery(tag => new HostBranch(tag))
 
   /** Entity class storing rows of table HostMachine
    *  @param id Database column id SqlType(serial), AutoInc, PrimaryKey

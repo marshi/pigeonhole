@@ -2,9 +2,9 @@ package controller
 
 import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
-import entity.Tables.{Project, Dashboard, HostMachine}
+import entity.Tables.Project
 import infrastructure.DbDriver
-import service.HostMachineListService
+import service.HostMachineService
 import slick.driver.PostgresDriver.api._
 
 import scala.concurrent.Await
@@ -17,7 +17,7 @@ import scala.util.{Failure, Success}
 class HostController extends Controller {
 
   get("/host/list") { request: Request =>
-    val hostMachineListService = new HostMachineListService
+    val hostMachineListService = new HostMachineService
     val nameList = hostMachineListService.fetchHostAndProjectName()
     response.ok.view("host/list.mustache", nameList)
   }

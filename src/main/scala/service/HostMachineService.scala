@@ -12,7 +12,7 @@ import scala.util.{Failure, Success}
  *
  * @author mukai_masaki on 2015/06/23.
  */
-class HostMachineListService {
+class HostMachineService {
 
   def fetchHostAndProjectName(): Seq[(Option[String], String)] = {
     val q = (Tables.Dashboard join Tables.HostMachine on (_.hostMachineId === _.id) join Tables.Project on ((tuple, p) => tuple._1.projectId === p.id)) map {
@@ -23,6 +23,16 @@ class HostMachineListService {
     future.value.get match {
       case Success(hm) => hm
       case Failure(hm) => Nil
+    }
+  }
+
+  def fetchHostMachineName(hostMachineId: Int): Option[String] = {
+    val q = Tables.HostMachine.filter(_.id === hostMachineId).map(_.name).result.head
+    val future = DbDriver.db.run(q)
+    Await.ready(future, Duration.Inf)
+    future.value.get match {
+      case Success(hostMachineName) => hostMachineName
+      case Failure(hostMachineName) => None
     }
   }
 
