@@ -9,18 +9,14 @@
 
 </div>
 <div class="container">
-  <div class="content">
-    <div class="host-form">
-      <form action="/host/register" method="POST">
-        <label for="">ホスト名<input name="host-name" type="text" value="dev-pc01"></label>
-        <label for=""><input type="submit" value="登録"></label>
-      </form>
-    </div>
-    <div>
+  <div>
+    <table>
       {{#.}}
-        {{name}}<br>
+        <tr>
+          <td>{{_1}}</td><td>{{_2}}</td>
+        </tr>
       {{/.}}
-    </div>
+    </table>
   </div>
 </div>
 </body>
