@@ -32,7 +32,6 @@ class HostController extends Controller {
   }
 
   post("/host/register") {request: Request =>
-    println(request.params.get("host-name"))
     response.ok.body(request.params.get("host-name"));
   }
 
