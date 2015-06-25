@@ -9,7 +9,6 @@ object Tables extends {
 trait Tables {
   val profile: slick.driver.JdbcProfile
   import profile.api._
-  import slick.model.ForeignKeyAction
   // NOTE: GetResult mappers for plain SQL are only generated for tables where Slick knows how to map the types of all columns.
   import slick.jdbc.{GetResult => GR}
 
@@ -92,6 +91,9 @@ trait Tables {
     val id: Rep[Int] = column[Int]("id", O.AutoInc, O.PrimaryKey)
     /** Database column name SqlType(varchar), Length(64,true), Default(None) */
     val name: Rep[Option[String]] = column[Option[String]]("name", O.Length(64,varying=true), O.Default(None))
+
+    /** Uniqueness Index over (name) (database name host_machine_name_key) */
+    val index1 = index("host_machine_name_key", name, unique=true)
   }
   /** Collection-like TableQuery object for table HostMachine */
   lazy val HostMachine = new TableQuery(tag => new HostMachine(tag))
