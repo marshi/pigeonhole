@@ -14,14 +14,12 @@ import scala.util.{Failure, Success}
  */
 class HostMachineService {
 
-  def fetchHostAndProjectName(): Seq[(Option[String], String)] = {
-    val q = (Tables.Dashboard join Tables.HostMachine on (_.hostMachineId === _.id) join Tables.HostProject on ((tuple, p) => tuple._1.projectId === p.id)) map {
-      case (tuple, p) => (tuple._2.name, p.name)
-    }
-    val future = DbDriver.db.run(q.result)
+  def fetchHostSeq(): Seq[Option[String]] = {
+    val q = Tables.HostMachine.result
+    val future = DbDriver.db.run(q)
     Await.ready(future, Duration.Inf)
     future.value.get match {
-      case Success(hm) => hm
+      case Success(hmSeq) => hmSeq.map {hm => hm.name}
       case Failure(hm) => Nil
     }
   }
@@ -34,6 +32,12 @@ class HostMachineService {
       case Success(hostMachineName) => hostMachineName
       case Failure(hostMachineName) => None
     }
+  }
+
+  def registerHostMachine(hostName: String) = {
+    val q = Tables.HostMachine.map(hm => hm.name) += Some(hostName)
+    val future = DbDriver.db.run(q)
+    Await.ready(future, Duration.Inf)
   }
 
 }

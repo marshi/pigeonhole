@@ -14,7 +14,7 @@ trait Tables {
   import slick.jdbc.{GetResult => GR}
 
   /** DDL for all tables. Call .create to execute. */
-  lazy val schema = Dashboard.schema ++ HostBranch.schema ++ HostMachine.schema ++ HostProject.schema
+  lazy val schema = Dashboard.schema ++ HostBranch.schema ++ HostMachine.schema
   @deprecated("Use .schema instead of .ddl", "3.0")
   def ddl = schema
 
@@ -70,8 +70,8 @@ trait Tables {
     /** Database column deploy_time SqlType(timestamptz), Default(None) */
     val deployTime: Rep[Option[java.sql.Timestamp]] = column[Option[java.sql.Timestamp]]("deploy_time", O.Default(None))
 
-    /** Uniqueness Index over (branchName,hostMachineId) (database name unique) */
-    val index1 = index("unique", (branchName, hostMachineId), unique=true)
+    /** Uniqueness Index over (hostMachineId) (database name host_branch_host_machine_id_key) */
+    val index1 = index("host_branch_host_machine_id_key", hostMachineId, unique=true)
   }
   /** Collection-like TableQuery object for table HostBranch */
   lazy val HostBranch = new TableQuery(tag => new HostBranch(tag))
@@ -101,27 +101,4 @@ trait Tables {
   }
   /** Collection-like TableQuery object for table HostMachine */
   lazy val HostMachine = new TableQuery(tag => new HostMachine(tag))
-
-  /** Entity class storing rows of table HostProject
-   *  @param name Database column name SqlType(varchar), Length(64,true)
-   *  @param id Database column id SqlType(serial), AutoInc, PrimaryKey */
-  case class HostProjectRow(name: String, id: Int)
-  /** GetResult implicit for fetching HostProjectRow objects using plain SQL queries */
-  implicit def GetResultHostProjectRow(implicit e0: GR[String], e1: GR[Int]): GR[HostProjectRow] = GR{
-    prs => import prs._
-    HostProjectRow.tupled((<<[String], <<[Int]))
-  }
-  /** Table description of table host_project. Objects of this class serve as prototypes for rows in queries. */
-  class HostProject(_tableTag: Tag) extends Table[HostProjectRow](_tableTag, "host_project") {
-    def * = (name, id) <> (HostProjectRow.tupled, HostProjectRow.unapply)
-    /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (Rep.Some(name), Rep.Some(id)).shaped.<>({r=>import r._; _1.map(_=> HostProjectRow.tupled((_1.get, _2.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
-
-    /** Database column name SqlType(varchar), Length(64,true) */
-    val name: Rep[String] = column[String]("name", O.Length(64,varying=true))
-    /** Database column id SqlType(serial), AutoInc, PrimaryKey */
-    val id: Rep[Int] = column[Int]("id", O.AutoInc, O.PrimaryKey)
-  }
-  /** Collection-like TableQuery object for table HostProject */
-  lazy val HostProject = new TableQuery(tag => new HostProject(tag))
 }

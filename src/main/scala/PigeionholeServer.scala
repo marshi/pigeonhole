@@ -1,4 +1,5 @@
 import com.twitter.finatra.http.HttpServer
+import com.twitter.finatra.http.filters.CommonFilters
 import com.twitter.finatra.http.routing.HttpRouter
 import controller.{DashboardController, HookController, HostController}
 
@@ -11,7 +12,8 @@ class PigeionholeServer extends HttpServer{
     router.
       add[DashboardController].
       add[HostController].
-      add[HookController]
+      add[HookController].
+      filter[CommonFilters]
   }
 
 }

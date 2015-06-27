@@ -8,15 +8,8 @@
 <div class="content">
   <div class="host-form">
     <form action="/host/register" method="POST">
-      <label for="">ホスト名<input name="host-name" type="text" value="dev-pc01"></label>
-      <label for="host-name">プロジェクト
-        <select value="">
-          {{#.}}
-          <option name="" id="">{{name}}</option>
-          {{/.}}
-        </select>
-      </label>
-      <label for=""><input type="submit" value="登録"></label>
+      <label for="">ホスト名<input name="host_name" type="text"></label>
+      <input type="submit" value="登録">
     </form>
   </div>
 </div>

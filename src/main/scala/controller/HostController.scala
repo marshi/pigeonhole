@@ -2,14 +2,11 @@ package controller
 
 import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
-import entity.Tables
-import infrastructure.DbDriver
+import com.twitter.finatra.request.QueryParam
+import com.twitter.finatra.validation.NotEmpty
 import service.HostMachineService
-import slick.driver.PostgresDriver.api._
 
-import scala.concurrent.Await
-import scala.concurrent.duration.Duration
-import scala.util.{Failure, Success}
+case class HostRegisterRequest (@NotEmpty @QueryParam hostName: String)
 
 /**
  * @author mukai_masaki on 2015/06/20.
@@ -17,22 +14,25 @@ import scala.util.{Failure, Success}
 class HostController extends Controller {
 
   get("/host/list") { request: Request =>
-    val hostMachineListService = new HostMachineService
-    val nameList = hostMachineListService.fetchHostAndProjectName()
+    val hostMachineService = new HostMachineService
+    val nameList = hostMachineService.fetchHostSeq()
     response.ok.view("host/list.mustache", nameList)
   }
 
-  get("/host/register") {request: Request =>
-    val future = DbDriver.db.run(Tables.HostProject.result)
-    Await.ready(future, Duration.Inf)
-    future.value.get match {
-      case Success(projects) => response.ok.view("host/register.mustache", projects)
-      case Failure(projects) =>
-    }
+  get("/host/register") { request: Request =>
+    response.ok.view("host/register.mustache", null)
   }
 
-  post("/host/register") {request: Request =>
-    response.ok.body(request.params.get("host-name"));
+  post("/host/register") { request: HostRegisterRequest =>
+    println("aiueo")
+    val hostName = request.hostName
+    val hostMachineService = new HostMachineService
+    hostName match {
+      case n: String => hostMachineService.registerHostMachine(n)
+    }
+    val nameList = hostMachineService.fetchHostSeq()
+    response.ok.view("host/list.mustache", nameList);
   }
+
 
 }
