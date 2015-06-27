@@ -15,7 +15,7 @@ import scala.util.{Failure, Success}
 class HostMachineService {
 
   def fetchHostAndProjectName(): Seq[(Option[String], String)] = {
-    val q = (Tables.Dashboard join Tables.HostMachine on (_.hostMachineId === _.id) join Tables.Project on ((tuple, p) => tuple._1.projectId === p.id)) map {
+    val q = (Tables.Dashboard join Tables.HostMachine on (_.hostMachineId === _.id) join Tables.HostProject on ((tuple, p) => tuple._1.projectId === p.id)) map {
       case (tuple, p) => (tuple._2.name, p.name)
     }
     val future = DbDriver.db.run(q.result)

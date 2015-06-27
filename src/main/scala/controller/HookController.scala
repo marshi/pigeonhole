@@ -12,7 +12,7 @@ import scala.util.parsing.json.JSON
 class HookController extends Controller {
 
   /**
-   * ブランチ名を取得.
+   * ブランチ名、ホスト名を指定してDBを更新.
    */
   post("/hook/deploy") { request: Request =>
     val payloads = request.params.get("Payloads")
@@ -20,8 +20,14 @@ class HookController extends Controller {
     val map = json.get.asInstanceOf[Map[String, Any]]
     val hostBranchService = new HostBranchService()
     (map.get("host"), map.get("branch")) match {
-      case (host: Some[String], branch: Some[String]) => hostBranchService.save(host.get, branch.get)
+      case (host: Some[String], branch: Some[String]) =>
+        try {
+          hostBranchService.save(host.get, branch.get)
+        } catch {
+          case e: Exception => response.internalServerError
+        }
     }
+    response.ok
   }
 
 }

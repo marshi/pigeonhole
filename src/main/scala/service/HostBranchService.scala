@@ -2,6 +2,7 @@ package service
 
 import java.sql.Timestamp
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 import entity.Tables
 import infrastructure.DbDriver
@@ -17,7 +18,7 @@ import scala.util.{Failure, Success}
  */
 class HostBranchService {
 
-  def hostBranchSeq = {
+  def hostBranchSeq() = {
     val q = Tables.HostBranch.result
     val future = DbDriver.db.run(q)
     future.onComplete {
@@ -37,13 +38,14 @@ class HostBranchService {
   def save(hostName: String, branchName: String) = {
     val hostMachineQuery = Tables.HostMachine.filter(_.name === hostName).result.head
     val fetchingMostMachineFuture = DbDriver.db.run(hostMachineQuery)
+
     Await.ready(fetchingMostMachineFuture, Duration.Inf)
     val hostMachineId = fetchingMostMachineFuture.value.get match {
       case Failure(_) => throw new RuntimeException
       case Success(hm) => hm.id
     }
     val selectQuery = Tables.HostBranch.filter(hb =>
-      hb.branchName === branchName && hb.hostMachineId === hostMachineId).exists.result
+      hb.hostMachineId === hostMachineId).exists.result
     val branchHostFuture = DbDriver.db.run(selectQuery)
     Await.ready(branchHostFuture, Duration.Inf)
     val exists = branchHostFuture.value.get match {
@@ -52,20 +54,24 @@ class HostBranchService {
     }
     if (exists) {
       val q = Tables.HostBranch.filter(hb =>
-        hb.branchName === branchName && hb.hostMachineId === hostMachineId).
-        map(hb => (hb.hostMachineId, hb.branchName, hb.deploytime)).
+        hb.hostMachineId === hostMachineId).
+        map(hb => (hb.hostMachineId, hb.branchName, hb.deployTime)).
         update(Some(hostMachineId), Some(branchName), Some(Timestamp.valueOf(LocalDateTime.now())))
       DbDriver.db.run(q).onComplete {
         case Failure(_) => throw new RuntimeException
         case Success(t) => println(t.value)
       }
     } else {
-      val q = Tables.HostBranch.map(h => (h.hostMachineId, h.branchName, h.deploytime)) +=
-        (Some(hostMachineId), Some(branchName), Some(Timestamp.valueOf(LocalDateTime.now())))
+      val q = Tables.HostBranch.map(h => (h.hostMachineId, h.branchName, h.deployTime)) +=
+        (Some(hostMachineId), Some(branchName), Some(Timestamp.valueOf(LocalDateTime.now().format(HostBranchService.formatter))))
        DbDriver.db.run(q).onComplete {
         case Failure(_) => throw new RuntimeException
         case Success(t) => println(t.value)
       }
     }
   }
+}
+
+object HostBranchService {
+  val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
 }

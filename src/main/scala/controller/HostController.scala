@@ -2,7 +2,7 @@ package controller
 
 import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
-import entity.Tables.Project
+import entity.Tables
 import infrastructure.DbDriver
 import service.HostMachineService
 import slick.driver.PostgresDriver.api._
@@ -23,7 +23,7 @@ class HostController extends Controller {
   }
 
   get("/host/register") {request: Request =>
-    val future = DbDriver.db.run(Project.result)
+    val future = DbDriver.db.run(Tables.HostProject.result)
     Await.ready(future, Duration.Inf)
     future.value.get match {
       case Success(projects) => response.ok.view("host/register.mustache", projects)
