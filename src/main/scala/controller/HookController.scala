@@ -17,13 +17,11 @@ class HookController extends Controller {
   post("/hook/deploy") { request: Request =>
     val payloads = request.params.get("Payloads")
     val json = payloads match {case Some(p) => JSON.parseFull(p)}
-    val map = json.get.asInstanceOf[Map[String, Option[Any]]]
+    val map = json.get.asInstanceOf[Map[String, Any]]
     val hostBranchService = new HostBranchService()
     (map.get("host"), map.get("branch")) match {
-      case (host: Some[Some[String]], branch: Some[Some[String]]) => hostBranchService.save(host.get, branch.get)
+      case (host: Some[String], branch: Some[String]) => hostBranchService.save(host.get, branch.get)
     }
-
-
   }
 
 }

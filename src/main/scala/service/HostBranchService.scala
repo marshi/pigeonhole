@@ -7,6 +7,9 @@ import entity.Tables
 import infrastructure.DbDriver
 import slick.driver.PostgresDriver.api._
 
+import scala.concurrent.Await
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.Duration
 import scala.util.{Failure, Success}
 
 /**
@@ -27,19 +30,42 @@ class HostBranchService {
   }
 
   /**
-   * 対象のホスト名、ブランチ名に対応した値を永続化.
+   * 蟇ｾ雎｡縺ｮ繝帙せ繝亥錐縲√ヶ繝ｩ繝ｳ繝∝錐縺ｫ蟇ｾ蠢懊＠縺溷､繧呈ｰｸ邯壼喧.
    * @param hostName
    * @param branchName
    */
-  def save(hostName: Option[String], branchName: Option[String]) = {
-    val q = Tables.HostMachine.filter(_.name === hostName).result.head
-    val future = DbDriver.db.run(q)
-    future.onComplete {
+  def save(hostName: String, branchName: String) = {
+    val hostMachineQuery = Tables.HostMachine.filter(_.name === hostName).result.head
+    val fetchingMostMachineFuture = DbDriver.db.run(hostMachineQuery)
+    Await.ready(fetchingMostMachineFuture, Duration.Inf)
+    val hostMachineId = fetchingMostMachineFuture.value.get match {
       case Failure(_) => throw new RuntimeException
-      case Success(h) =>
-        Tables.HostBranch.map(h => (h.hostMachineId, h.branchName, h.deploytime)) +=
-          (Some(h.id), branchName, Some(Timestamp.valueOf(LocalDateTime.now())))
+      case Success(hm) => hm.id
+    }
+    val selectQuery = Tables.HostBranch.filter(hb =>
+      hb.branchName === branchName && hb.hostMachineId === hostMachineId).exists.result
+    val branchHostFuture = DbDriver.db.run(selectQuery)
+    Await.ready(branchHostFuture, Duration.Inf)
+    val exists = branchHostFuture.value.get match {
+      case Failure(_) => throw new RuntimeException
+      case Success(exist) => exist
+    }
+    if (exists) {
+      val q = Tables.HostBranch.filter(hb =>
+        hb.branchName === branchName && hb.hostMachineId === hostMachineId).
+        map(hb => (hb.hostMachineId, hb.branchName, hb.deploytime)).
+        update(Some(hostMachineId), Some(branchName), Some(Timestamp.valueOf(LocalDateTime.now())))
+      DbDriver.db.run(q).onComplete {
+        case Failure(_) => throw new RuntimeException
+        case Success(t) => println(t.value)
+      }
+    } else {
+      val q = Tables.HostBranch.map(h => (h.hostMachineId, h.branchName, h.deploytime)) +=
+        (Some(hostMachineId), Some(branchName), Some(Timestamp.valueOf(LocalDateTime.now())))
+       DbDriver.db.run(q).onComplete {
+        case Failure(_) => throw new RuntimeException
+        case Success(t) => println(t.value)
+      }
     }
   }
-
 }
