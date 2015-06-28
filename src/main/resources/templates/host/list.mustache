@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>ホストの管理</title>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script type="text/javascript" src="/js/delete.js"></script>
 </head>
 <body>
 <div>
@@ -12,8 +14,11 @@
   <div>
     <table>
       {{#.}}
-        <tr>
-          <td>{{.}}</td>
+        <tr id="host_{{id}}" >
+          <td>{{name}}</td>
+          <td>
+            <button type="submit" onclick="confirmtAndDeleteHost('host_{{id}}', {{id}}, '{{name}}')">削除</button>
+          </td>
         </tr>
       {{/.}}
     </table>

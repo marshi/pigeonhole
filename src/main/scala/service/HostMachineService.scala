@@ -1,6 +1,7 @@
 package service
 
 import entity.Tables
+import entity.Tables.HostMachineRow
 import infrastructure.DbDriver
 import slick.driver.PostgresDriver.api._
 
@@ -14,12 +15,12 @@ import scala.util.{Failure, Success}
  */
 class HostMachineService {
 
-  def fetchHostSeq(): Seq[Option[String]] = {
+  def fetchHostSeq(): Seq[HostMachineRow] = {
     val q = Tables.HostMachine.result
     val future = DbDriver.db.run(q)
     Await.ready(future, Duration.Inf)
     future.value.get match {
-      case Success(hmSeq) => hmSeq.map {hm => hm.name}
+      case Success(hmSeq) => hmSeq
       case Failure(hm) => Nil
     }
   }
@@ -34,8 +35,14 @@ class HostMachineService {
     }
   }
 
-  def registerHostMachine(hostName: String) = {
-    val q = Tables.HostMachine.map(hm => hm.name) += Some(hostName)
+  def registerHostMachine(hostName: Option[String]) = {
+    val q = Tables.HostMachine.map(hm => hm.name) += hostName
+    val future = DbDriver.db.run(q)
+    Await.ready(future, Duration.Inf)
+  }
+
+  def delete(hostId: Option[Int]) = {
+    val q = Tables.HostMachine.filter(hm => hm.id === hostId) delete
     val future = DbDriver.db.run(q)
     Await.ready(future, Duration.Inf)
   }
