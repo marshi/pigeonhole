@@ -11,4 +11,6 @@
     display: table-cell;
     height: inherit;
     vertical-align: middle;
+    padding-left: 20px;
+    padding-right: 20px;
 }
