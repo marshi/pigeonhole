@@ -1,13 +1,14 @@
 package service
 
 
+import java.time.format.DateTimeFormatter
+
 import entity.{DashBoardTableEntity, Tables}
 import infrastructure.DbDriver
+import slick.driver.PostgresDriver.api._
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
-import slick.driver.PostgresDriver.api._
-
 import scala.util.{Failure, Success}
 
 /**
@@ -35,4 +36,8 @@ class DashboardService {
     }
   }
 
+}
+
+object DashboardService{
+  val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
 }

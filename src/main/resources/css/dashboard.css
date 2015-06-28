@@ -1,0 +1,14 @@
+.dashboard {
+    width: 65%;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.dashboard__row {
+    height: 60px;
+}
+
+.dashboard__cell {
+    padding-right: 10px;
+    padding-left: 10px;
+}
