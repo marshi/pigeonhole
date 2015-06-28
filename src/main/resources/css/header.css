@@ -1,0 +1,11 @@
+.header {
+    display: block;
+    height: 60px;
+    border-bottom: solid 1px;
+}
+
+.header--servicename {
+    display: table-cell;
+    height: inherit;
+    vertical-align: middle;
+}

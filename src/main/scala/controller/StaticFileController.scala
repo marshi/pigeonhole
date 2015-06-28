@@ -14,7 +14,7 @@ class StaticFileController extends Controller{
   }
 
   get("/css/:cssFile") {request: Request =>
-    val cssFile = request.getParam("javascript")
+    val cssFile = request.getParam("cssFile")
     response.ok.file(s"/css/$cssFile")
   }
 
