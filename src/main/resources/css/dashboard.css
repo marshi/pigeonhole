@@ -6,6 +6,7 @@
 
 .dashboard__row {
     height: 60px;
+    border-bottom: 1px solid #b8b8b8
 }
 
 .dashboard__cell {
