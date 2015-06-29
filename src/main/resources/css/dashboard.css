@@ -1,7 +1,12 @@
 .dashboard {
-    width: 65%;
+    width: 880px;
+    margin: 0 auto;
+}
+
+.dashboard__table {
+    width: 100%;
     margin-left: auto;
-    margin-right: 0;
+    margin-right: auto;
 }
 
 .dashboard__row {
@@ -10,6 +15,14 @@
 }
 
 .dashboard__cell {
-    padding-right: 10px;
-    padding-left: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.dashboard__cell__branch {
+    width: 40%;
+}
+
+.dashboard__cell__deploytime{
+    width: 30%;
 }

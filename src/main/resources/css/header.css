@@ -7,10 +7,14 @@
     border-bottom: solid 1px;
 }
 
+.header__menu {
+    display: table;
+    height: 100%;
+}
+
 .header__servicename {
     display: table-cell;
     height: inherit;
     vertical-align: middle;
-    padding-left: 20px;
     padding-right: 20px;
 }

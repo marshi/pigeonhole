@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" class="height-full">
 <head>
   <meta charset="UTF-8">
   <title>ダッシュボード</title>
@@ -9,23 +9,27 @@
   <link rel="stylesheet" href="/css/header.css">
   <link rel="stylesheet" href="/css/dashboard.css">
 </head>
-<body>
-<div class="container header">
-  <span class="header__servicename">Pigeonhole</span>
+<body class="height-full">
+<div class="header">
+  <div class="container">
+    <div class="header__menu">
+      <span class="header__servicename">Pigeonhole</span>
+    </div>
+  </div>
 </div>
 <div class="container content"><!--main-->
   <div class="dashboard">
-    <table>
+    <table class="dashboard__table">
       <tr class="dashboard__row">
         <th class="dashboard__cell">ホスト</th>
-        <th class="dashboard__cell">ブランチ</th>
-        <th class="dashboard__cell">デプロイ日時</th>
+        <th class="dashboard__cell dashboard__cell__branch">ブランチ</th>
+        <th class="dashboard__cell dashboard__cell__deploytime">デプロイ日時</th>
       </tr>
       {{#.}}
         <tr class="dashboard__row">
           <td class="dashboard__cell">{{hostMachineName}}</td>
-          <td class="dashboard__cell">{{branchName}}</td>
-          <td class="dashboard__cell">{{deployTime}}</td>
+          <td class="dashboard__cell dashboard__cell__branch">{{branchName}}</td>
+          <td class="dashboard__cell dashboard__cell__deploytime">{{deployTime}}</td>
         </tr>
       {{/.}}
     </table>

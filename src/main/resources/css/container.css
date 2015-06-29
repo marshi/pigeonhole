@@ -1,6 +1,10 @@
 .container {
+    height: 100%;
+    width: 880px;
     margin-right: auto;
     margin-left: auto;
-    padding-left: 100px;
-    padding-right: 100px;
+}
+
+.height-full {
+    height: 100%;
 }
