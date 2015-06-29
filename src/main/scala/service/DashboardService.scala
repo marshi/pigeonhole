@@ -26,7 +26,7 @@ class DashboardService {
     val q = Tables.HostBranch.result
     val future = DbDriver.db.run(q)
     Await.ready(future, Duration.Inf)
-    future.value.get match {
+    val dashboardTableEntitySeq = future.value.get match {
       case Success(hostBranches) =>
         hostBranches map { hostBranch =>
           val hostMachineName = hostMachineService.fetchHostMachineName(hostBranch.hostMachineId.get)
@@ -34,6 +34,7 @@ class DashboardService {
         }
       case Failure(fb) => throw new RuntimeException
     }
+    dashboardTableEntitySeq.sortBy(_.hostMachineName)
   }
 
 }
