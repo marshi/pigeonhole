@@ -62,9 +62,8 @@ class HostBranchService {
         case Success(t) => println(t.value)
       }
     } else {
-      val q = Tables.HostBranch.map(h => (h.hostMachineId, h.branchName, h.deployTime)) +=
-        (Some(hostMachineId), Some(branchName), Some(Timestamp.valueOf(LocalDateTime.now().format(HostBranchService.formatter))))
-       DbDriver.db.run(q).onComplete {
+      val q = Tables.HostBranch.map(h => (h.hostMachineId, h.branchName, h.deployTime)) += (Some(hostMachineId), Some(branchName), Some(Timestamp.valueOf(LocalDateTime.now())))
+      DbDriver.db.run(q).onComplete {
         case Failure(_) => throw new RuntimeException
         case Success(t) => println(t.value)
       }
@@ -72,6 +71,3 @@ class HostBranchService {
   }
 }
 
-object HostBranchService {
-  val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
-}
