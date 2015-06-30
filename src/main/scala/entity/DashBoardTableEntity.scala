@@ -7,8 +7,8 @@ import java.sql.Timestamp
  */
 class DashBoardTableEntity
 (
-  val hostMachineName: Option[String],
-  val branchName: Option[String],
-  val deployTime: Option[Timestamp]
+  val hostMachineName: String,
+  val branchName: String,
+  val deployTime: String
   )
 

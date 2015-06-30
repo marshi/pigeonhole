@@ -1,10 +1,14 @@
 package service
 
 
+import java.sql.Timestamp
 import java.time.format.DateTimeFormatter
 
+import com.twitter.util.Config.intoList
+import entity.Tables.HostBranchRow
 import entity.{DashBoardTableEntity, Tables}
 import infrastructure.DbDriver
+import org.apache.commons.lang.time.FastDateFormat
 import slick.driver.PostgresDriver.api._
 
 import scala.concurrent.Await
@@ -28,9 +32,10 @@ class DashboardService {
     Await.ready(future, Duration.Inf)
     val dashboardTableEntitySeq = future.value.get match {
       case Success(hostBranches) =>
-        hostBranches map { hostBranch =>
-          val hostMachineName = hostMachineService.fetchHostMachineName(hostBranch.hostMachineId.get)
-          new DashBoardTableEntity(hostMachineName, hostBranch.branchName, hostBranch.deployTime)
+        hostBranches map {
+          case HostBranchRow(_, Some(branchName), Some(hostMachineId), Some(deployTime)) =>
+            val hostMachineName = hostMachineService.fetchHostMachineName(hostMachineId)
+            new DashBoardTableEntity(hostMachineName.get, branchName, DashboardService.formatter.format(deployTime))
         }
       case Failure(fb) => throw new RuntimeException
     }
@@ -40,5 +45,5 @@ class DashboardService {
 }
 
 object DashboardService{
-  val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
+  val formatter = FastDateFormat.getInstance("yyyy/MM/dd HH:mm:ss")
 }
