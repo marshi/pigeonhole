@@ -1,10 +1,6 @@
 package service
 
 
-import java.sql.Timestamp
-import java.time.format.DateTimeFormatter
-
-import com.twitter.util.Config.intoList
 import entity.Tables.HostBranchRow
 import entity.{DashBoardTableEntity, Tables}
 import infrastructure.DbDriver
@@ -36,6 +32,9 @@ class DashboardService {
           case HostBranchRow(_, Some(branchName), Some(hostMachineId), Some(deployTime)) =>
             val hostMachineName = hostMachineService.fetchHostMachineName(hostMachineId)
             new DashBoardTableEntity(hostMachineName.get, branchName, DashboardService.formatter.format(deployTime))
+          case HostBranchRow(_, Some(branchName), Some(hostMachineId), None) =>
+            val hostMachineName = hostMachineService.fetchHostMachineName(hostMachineId)
+            new DashBoardTableEntity(hostMachineName.get, branchName, "")
         }
       case Failure(fb) => throw new RuntimeException
     }
