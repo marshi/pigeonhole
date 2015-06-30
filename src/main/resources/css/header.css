@@ -8,12 +8,22 @@
 }
 
 .header__menu {
-    display: table;
+    list-style: none;
     height: 100%;
 }
 
-.header__servicename {
-    display: table-cell;
+.header__service {
+    float: left;
+}
+
+.header__service__name {
+    height: inherit;
+    vertical-align: middle;
+    padding-right: 20px;
+}
+
+.header__menu__elem {
+    float: left;
     height: inherit;
     vertical-align: middle;
     padding-right: 20px;
