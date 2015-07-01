@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>ホストの管理</title>
+  <link rel="stylesheet" href="/css/sanitize.css">
+  <link rel="stylesheet" href="/css/container.css">
+  <link rel="stylesheet" href="/css/content.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/clearfix.css">
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script type="text/javascript" src="/js/delete.js"></script>
 </head>
@@ -10,7 +15,8 @@
 <div>
 
 </div>
-<div class="container">
+{{> partial/header}}
+<div class="container content">
   <div>
     <table>
       {{#.}}
