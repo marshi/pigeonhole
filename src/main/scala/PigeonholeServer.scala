@@ -6,7 +6,7 @@ import controller.{StaticFileController, DashboardController, HookController, Ho
 /**
  * @author mukai_masaki on 2015/06/19.
  */
-class PigeionholeServer extends HttpServer{
+class PigeonholeServer extends HttpServer{
 
   override protected def configureHttp(router: HttpRouter): Unit = {
     router.
@@ -20,4 +20,4 @@ class PigeionholeServer extends HttpServer{
 }
 
 
-object PigeionholeBootstrap extends PigeionholeServer
+object PigeonholeBootstrap extends PigeonholeServer

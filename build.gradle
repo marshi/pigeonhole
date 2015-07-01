@@ -8,7 +8,8 @@
  */
 
 // Apply the scala plugin to add support for Scala
-apply plugin: 'scala'
+apply plugin: 'application'
+mainClassName = "PigeonholeBootstrap"
 
 sourceCompatibility = '1.8' // -source
 targetCompatibility = '1.8' // -target
