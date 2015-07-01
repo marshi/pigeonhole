@@ -1,0 +1,16 @@
+.table {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table__row {
+    height: 60px;
+    border-bottom: 1px solid #b8b8b8
+}
+
+.table__cell {
+    text-align: left;
+    padding-right: 15px;
+    padding-left: 15px;
+}

@@ -8,22 +8,25 @@
   <link rel="stylesheet" href="/css/content.css">
   <link rel="stylesheet" href="/css/header.css">
   <link rel="stylesheet" href="/css/clearfix.css">
+  <link rel="stylesheet" href="/css/table.css">
+  <link rel="stylesheet" href="/css/form.css">
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script type="text/javascript" src="/js/delete.js"></script>
 </head>
 <body>
-<div>
-
-</div>
 {{> partial/header}}
 <div class="container content">
-  <div>
-    <table>
+  <div class="host-list">
+    <table class="table">
+      <tr class="table__row">
+        <th class="table__cell">ホスト名</th>
+        <th class="table__cell"></th>
+      </tr>
       {{#.}}
-        <tr id="host_{{id}}" >
-          <td>{{name}}</td>
-          <td>
-            <button type="submit" onclick="confirmAndDeleteHost('host_{{id}}', {{id}}, '{{name}}')">削除</button>
+        <tr id="host_{{id}}" class="table__row">
+          <td class="table__cell">{{name}}</td>
+          <td class="table__cell">
+            <button class="form__submit" type="submit" onclick="confirmAndDeleteHost('host_{{id}}', {{id}}, '{{name}}')">削除</button>
           </td>
         </tr>
       {{/.}}

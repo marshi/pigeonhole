@@ -8,23 +8,24 @@
   <link rel="stylesheet" href="/css/content.css">
   <link rel="stylesheet" href="/css/header.css">
   <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/table.css">
   <link rel="stylesheet" href="/css/clearfix.css">
 </head>
 <body class="height-full">
 {{> partial/header}}
 <div class="container content"><!--main-->
   <div class="dashboard">
-    <table class="dashboard__table">
-      <tr class="dashboard__row">
-        <th class="dashboard__cell">ホスト</th>
-        <th class="dashboard__cell dashboard__cell__branch">ブランチ</th>
-        <th class="dashboard__cell dashboard__cell__deploytime">デプロイ日時</th>
+    <table class="table">
+      <tr class="table__row">
+        <th class="table__cell">ホスト</th>
+        <th class="table__cell table__cell__branch">ブランチ</th>
+        <th class="table__cell table__cell__deploytime">デプロイ日時</th>
       </tr>
       {{#.}}
-        <tr class="dashboard__row">
-          <td class="dashboard__cell">{{hostMachineName}}</td>
-          <td class="dashboard__cell dashboard__cell__branch">{{branchName}}</td>
-          <td class="dashboard__cell dashboard__cell__deploytime">{{deployTime}}</td>
+        <tr class="table__row">
+          <td class="table__cell">{{hostMachineName}}</td>
+          <td class="table__cell table__cell__branch">{{branchName}}</td>
+          <td class="table__cell table__cell__deploytime">{{deployTime}}</td>
         </tr>
       {{/.}}
     </table>

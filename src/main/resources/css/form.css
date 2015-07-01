@@ -1,0 +1,47 @@
+.form-host {
+    border: solid 1px #b8b8b8;
+    border-radius: 5px;
+}
+
+.form__item-box {
+    list-style: none;
+    width: 290px;
+    height: 80px;
+}
+
+.form__item {
+    list-style: none;
+    width: 320px;
+    margin: 0 auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.form__input {
+    height: 35px;
+    border: solid 1px;
+    border-radius: 5px;
+}
+
+.form__label {
+    font-size: 20px;
+    padding-right: 20px;
+}
+
+.form__submit {
+    display: block;
+    border: solid 1px;
+    font-size: 20px;
+    margin: 0 auto;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    padding: 3px 10px;
+    border-radius: 10px;
+}
+
+
+.form__submit:hover {
+    color: #4078c0;
+}

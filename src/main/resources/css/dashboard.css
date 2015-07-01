@@ -3,22 +3,6 @@
     margin: 0 auto;
 }
 
-.dashboard__table {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.dashboard__row {
-    height: 60px;
-    border-bottom: 1px solid #b8b8b8
-}
-
-.dashboard__cell {
-    padding-right: 15px;
-    padding-left: 15px;
-}
-
 .dashboard__cell__branch {
     width: 40%;
 }

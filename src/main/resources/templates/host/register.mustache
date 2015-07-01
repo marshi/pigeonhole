@@ -1,15 +1,31 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
+  <link rel="stylesheet" href="/css/sanitize.css">
+  <link rel="stylesheet" href="/css/container.css">
+  <link rel="stylesheet" href="/css/content.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/form.css">
+  <link rel="stylesheet" href="/css/clearfix.css">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script type="text/javascript" src="/js/delete.js"></script>
 </head>
 <body>
-<div class="content">
+{{>partial/header}}
+<div class="container content">
   <div class="host-form">
-    <form action="/host/register" method="POST">
-      <label for="">ホスト名<input name="host_name" type="text"></label>
-      <input type="submit" value="登録">
+    <form action="/host/register" method="POST" class="form-host">
+      <ul>
+        <li class="form__item">
+          <label class="form__label" for="host_name">ホスト名</label>
+          <input id="host_name" name="host_name" class="form__input" type="text">
+        </li>
+        <li class="form__item">
+          <input class="form__submit" type="submit" value="登録">
+        </li>
+      </ul>
     </form>
   </div>
 </div>
