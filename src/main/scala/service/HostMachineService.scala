@@ -38,7 +38,8 @@ class HostMachineService {
   def registerHostMachine(hostName: Option[String]) = {
     hostName match {
       case Some(a) if a.isEmpty => throw new IllegalArgumentException
-    }
+      case _ =>
+  }
     val q = Tables.HostMachine.map(hm => hm.name) += hostName
     val future = DbDriver.db.run(q)
     Await.ready(future, Duration.Inf)
