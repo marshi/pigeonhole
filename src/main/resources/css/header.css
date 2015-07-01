@@ -31,4 +31,13 @@
     height: inherit;
     vertical-align: middle;
     padding-left: 20px;
+    color: black;
+}
+
+.header__menu__link {
+    color: black;
+}
+
+.header__menu__link:hover {
+    color: #4078c0;
 }
