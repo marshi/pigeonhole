@@ -25,12 +25,13 @@ class HostController extends Controller {
     val hostName = request.params.get("host_name")
     val hostMachineService = new HostMachineService
     try {
-    hostMachineService.registerHostMachine(hostName)
+      hostMachineService.registerHostMachine(hostName)
+      val hostList = hostMachineService.fetchHostSeq()
+      response.ok.view("host/list.mustache", hostList);
     } catch {
-      case e: Exception => response.internalServerError
+      case e: IllegalArgumentException => response.badRequest.view("/host/register.mustache", null);
+      case e: Exception => response.internalServerError.view("/host/register.mustache", null)
     }
-    val hostList = hostMachineService.fetchHostSeq()
-    response.ok.view("host/list.mustache", hostList);
   }
 
   delete("/host/delete") { request: Request =>
@@ -38,12 +39,11 @@ class HostController extends Controller {
     val hostMachineService = new HostMachineService
     try {
       hostMachineService.delete(hostId)
+      val hostList = hostMachineService.fetchHostSeq()
+      response.ok.view("host/list.mustache", hostList);
     } catch {
       case e: Exception => response.internalServerError
     }
-    val hostList = hostMachineService.fetchHostSeq()
-    response.ok.view("host/list.mustache", hostList);
   }
-
 
 }
