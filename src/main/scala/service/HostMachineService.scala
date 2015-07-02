@@ -46,7 +46,7 @@ class HostMachineService {
   }
 
   def delete(hostId: Option[Int]) = {
-    val q = Tables.HostMachine.filter(hm => hm.id === hostId) delete
+    val q = Tables.HostMachine.filter(hm => hm.id === hostId).delete
     val future = DbDriver.db.run(q)
     Await.ready(future, Duration.Inf)
   }

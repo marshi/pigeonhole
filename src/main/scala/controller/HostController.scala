@@ -4,7 +4,7 @@ import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
 import com.twitter.finatra.request.QueryParam
 import com.twitter.finatra.validation.NotEmpty
-import service.HostMachineService
+import service.{HostBranchService, HostMachineService}
 
 /**
  * @author mukai_masaki on 2015/06/20.
@@ -37,8 +37,10 @@ class HostController extends Controller {
   delete("/host/delete") { request: Request =>
     val hostId = request.params.getInt("host_id")
     val hostMachineService = new HostMachineService
+    val hostBranchService = new HostBranchService
     try {
       hostMachineService.delete(hostId)
+      hostBranchService.deleteByHostId(hostId)
       val hostList = hostMachineService.fetchHostSeq()
       response.ok.view("host/list.mustache", hostList);
     } catch {

@@ -69,5 +69,12 @@ class HostBranchService {
       }
     }
   }
+
+  def deleteByHostId(hostId: Option[Int]) = {
+    val q = Tables.HostBranch.filter(_.hostMachineId === hostId).delete
+    val future = DbDriver.db.run(q)
+    Await.ready(future, Duration.Inf)
+  }
+
 }
 
