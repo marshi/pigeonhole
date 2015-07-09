@@ -35,14 +35,24 @@ class HostMachineService {
     }
   }
 
-  def registerHostMachine(hostName: Option[String]) = {
+  /**
+   * host_machineに指定のホスト名を登録.
+   * IDを返却.
+   * @param hostName
+   * @return ID
+   */
+  def registerHostMachine(hostName: Option[String]): Int = {
     hostName match {
       case Some(a) if a.isEmpty => throw new IllegalArgumentException
       case _ =>
-  }
-    val q = Tables.HostMachine.map(hm => hm.name) += hostName
+    }
+    val q = Tables.HostMachine.map(_.name) returning Tables.HostMachine.map(_.id) += hostName
     val future = DbDriver.db.run(q)
     Await.ready(future, Duration.Inf)
+    future.value.get match {
+      case Success(id) => id
+      case Failure(_) => throw new RuntimeException
+    }
   }
 
   def delete(hostId: Option[Int]) = {

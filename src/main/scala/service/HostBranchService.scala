@@ -2,7 +2,6 @@ package service
 
 import java.sql.Timestamp
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 import entity.Tables
 import infrastructure.DbDriver
@@ -32,16 +31,19 @@ class HostBranchService {
 
   /**
    * 対象のホスト名、ブランチ名に対応した値を永続化.
+   * ホスト名が登録されていない場合、host_machineテーブルにinsertしたうえでhost_branchを更新.
    * @param hostName
    * @param branchName
    */
   def save(hostName: String, branchName: String) = {
     val hostMachineQuery = Tables.HostMachine.filter(_.name === hostName).result.head
     val fetchingMostMachineFuture = DbDriver.db.run(hostMachineQuery)
-
     Await.ready(fetchingMostMachineFuture, Duration.Inf)
+
     val hostMachineId = fetchingMostMachineFuture.value.get match {
-      case Failure(_) => throw new RuntimeException
+      case Failure(_) => //host_machineに指定のホスト名が登録されていない場合
+        val hostMachineService = new HostMachineService
+        hostMachineService.registerHostMachine(Some(hostName))
       case Success(hm) => hm.id
     }
     val selectQuery = Tables.HostBranch.filter(hb =>
