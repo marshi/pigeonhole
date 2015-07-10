@@ -10,3 +10,10 @@
 
 # Get Started
 
+## データベーステーブルの生成
+src/main/resources/application.conf で設定されているPostgreSQLに下記のテーブルを生成する
+
+
+
+
+## 起動
