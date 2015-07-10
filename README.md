@@ -4,4 +4,4 @@
 
 動作確認用サーバとそれぞれのサーバにデプロイされたgitブランチの対応表を生成するツール.
 
-![](https://drive.google.com/file/d/0BzeWg9A5Za2SQmhYUkJValRBNTA/view?usp=sharing)
+![](https://lh4.googleusercontent.com/Wm8FmUUe4pBFXdnORRpdcfRTpNN8C4aa1CSCVT3z6EZb49HklQm6EZsBjIhduUfanLqLaAVe6DKC450=w1896-h875-rw)
