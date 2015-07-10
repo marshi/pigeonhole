@@ -28,7 +28,7 @@ repositories {
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
-     // We use Scala 2.11 in our library project
+    // We use Scala 2.11 in our library project
     compile 'org.scala-lang:scala-library:2.11.1'
     compile 'com.twitter.finatra:finatra-http_2.11:2.0.0.M1'
     compile 'com.twitter.finatra:finatra-logback_2.11:2.0.0.M1'

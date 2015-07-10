@@ -6,15 +6,39 @@
   <link rel="stylesheet" href="/css/sanitize.css">
   <link rel="stylesheet" href="/css/container.css">
   <link rel="stylesheet" href="/css/content.css">
+  <link rel="stylesheet" href="/css/code.css">
   <link rel="stylesheet" href="/css/header.css">
-  <link rel="stylesheet" href="/css/table.css">
   <link rel="stylesheet" href="/css/clearfix.css">
+  <link rel="stylesheet" href="/css/howtouse.css">
 </head>
 <body class="height-full">
 {{> partial/header}}
 <div class="container content"><!--main-->
-  <div class="dashboard">
-
+  <div class="howtouse">
+    <div class="chapter">
+      <h1>Pigeionholeとは</h1>
+      <p>どのホストにどのブランチがデプロイされているかを管理するツール</p>
+    </div>
+    <div class="chapter">
+      <h1>利用方法</h1>
+      <p>POSTリクエストを送ることによって、ホストとブランチの登録あるいは更新が行われる.</p>
+    <pre class="sourcecode"><code>
+      # HOST_NAMEとBRANCH_NAMEを適宜変更して実行.
+      curl -X POST -d Payloads={\"host\":\"${HOST_NAME}\"\,\"branch\":\"${BRANCH_NAME}\"} http://&lt;Pigeionholeのホスト&gt;:&lt;ポート&gt;/hook/deploy
+    </code></pre>
+    </div>
+    <div class="chapter">
+      <h1>ダッシュボード</h1>
+      <p>ホストとブランチの対応一覧</p>
+    </div>
+    <div class="chapter">
+      <h1>ホスト一覧</h1>
+      <p>
+        登録されたホストの一覧. <br>
+        ホスト情報の削除も行える. <br>
+        ホストを削除するとダッシュボードに登録されているホストとブランチの情報も削除される.
+      </p>
+    </div>
   </div>
 </div>
 </body>
