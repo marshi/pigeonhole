@@ -10,7 +10,7 @@
 
 # 機能
 
-* HTTP POSTリクエストによってホスト名、ブランチ名を登録
+* HTTP POSTリクエストによってホスト名、ブランチ名を登録. CIでデプロイ後にPOSTリクエストする使い方を想定
 ```
 # 例
 curl -X POST -d Payloads={\"host\":\"${HOST_NAME}\"\,\"branch\":\"${BRANCH_NAME}\"} http://<Pigeionholeのホスト>:<ポート>/hook/deploy
