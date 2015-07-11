@@ -16,8 +16,8 @@
 curl -X POST -d Payloads={\"host\":\"${HOST_NAME}\"\,\"branch\":\"${BRANCH_NAME}\"} http://<Pigeionholeのホスト>:<ポート>/hook/deploy
 ```
 
-* ダッシュボードで一覧表示
-* ホスト一覧表示、ホストの削除
+* ダッシュボードでサーバのホスト名とブランチ名の一覧表示
+* サーバ一覧表示、サーバの登録削除
 
 # Get Started
 
