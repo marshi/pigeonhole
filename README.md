@@ -37,6 +37,11 @@ CREATE TABLE host_machine
 ```
 
 ## 起動
+
+プロジェクトのルートディレクトリで下記のコマンドを実行
+
+デフォルトで8888番ポードで起動する
+
 ```bash
 ./gradlew run
 ```
