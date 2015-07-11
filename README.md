@@ -11,6 +11,11 @@
 # 機能
 
 * HTTP POSTリクエストによってホスト名、ブランチ名を登録
+```
+# 例
+curl -X POST -d Payloads={\"host\":\"${HOST_NAME}\"\,\"branch\":\"${BRANCH_NAME}\"} http://<Pigeionholeのホスト>:<ポート>/hook/deploy
+```
+
 * ダッシュボードで一覧表示
 * ホスト一覧表示、ホストの削除
 
