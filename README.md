@@ -6,8 +6,7 @@
 
 下の図のようにPigeonhole管理下にあるサーバとブランチが表示される
 
-![](https://lh4.googleusercontent.com/Wm8FmUUe4pBFXdnORRpdcfRTpNN8C4aa1CSCVT3z6EZb49HklQm6EZsBjIhduUfanLqLaAVe6DKC450=w1896-h875-rw)
-
+![](https://lh4.googleusercontent.com/6ZDNyIApEaYbSTbhgbdmdeX57ddsheT1rRHZwsHa9-6AF8NPmJxpZtz8GOqTUVR46pMBvbrRT1IyM6o=w1896-h875-rw)
 # 機能
 
 * HTTP POSTリクエストによってホスト名、ブランチ名を登録. CIでデプロイ後にPOSTリクエストする使い方を想定
