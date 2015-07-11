@@ -47,7 +47,7 @@ CREATE TABLE host_machine
 ```
 
 # 名前の由来
-鳩の巣原理(pigeionhole principle)から拝借
+鳩の巣原理(pigeonhole principle)から拝借
 
 開発時にサーバの取り合いを防ぐにはブランチの数だけサーバを用意しないといけない
 
