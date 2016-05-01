@@ -30,7 +30,7 @@ class HostMachineService {
     val future = DbDriver.db.run(q)
     Await.ready(future, Duration.Inf)
     future.value.get match {
-      case Success(hostMachineName) => hostMachineName
+      case Success(hostMachineName) => Some(hostMachineName)
       case Failure(hostMachineName) => None
     }
   }
@@ -41,11 +41,7 @@ class HostMachineService {
    * @param hostName
    * @return ID
    */
-  def registerHostMachine(hostName: Option[String]): Int = {
-    hostName match {
-      case Some(a) if a.isEmpty => throw new IllegalArgumentException
-      case _ =>
-    }
+  def registerHostMachine(hostName: String): Int = {
     val q = Tables.HostMachine.map(_.name) returning Tables.HostMachine.map(_.id) += hostName
     val future = DbDriver.db.run(q)
     Await.ready(future, Duration.Inf)

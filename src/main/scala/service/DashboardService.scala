@@ -29,12 +29,15 @@ class DashboardService {
     val dashboardTableEntitySeq = future.value.get match {
       case Success(hostBranches) =>
         hostBranches map {
-          case HostBranchRow(_, Some(branchName), Some(hostMachineId), Some(deployTime)) =>
+          case HostBranchRow(_, Some(branchName), hostMachineId, Some(deployTime), Some(hostGroup), Some(username)) =>
             val hostMachineName = hostMachineService.fetchHostMachineName(hostMachineId)
-            new DashBoardTableEntity(hostMachineName.get, branchName, DashboardService.formatter.format(deployTime))
-          case HostBranchRow(_, Some(branchName), Some(hostMachineId), None) =>
+            new DashBoardTableEntity(hostMachineName.get, branchName, username, hostGroup, DashboardService.formatter.format(deployTime))
+          case HostBranchRow(_, Some(branchName), hostMachineId, None, Some(hostGroup), Some(username)) =>
             val hostMachineName = hostMachineService.fetchHostMachineName(hostMachineId)
-            new DashBoardTableEntity(hostMachineName.get, branchName, "")
+            new DashBoardTableEntity(hostMachineName.get, branchName, username, hostGroup, "")
+          case HostBranchRow(_, Some(branchName), hostMachineId, Some(deployTime), None, None) =>
+            val hostMachineName = hostMachineService.fetchHostMachineName(hostMachineId)
+            new DashBoardTableEntity(hostMachineName.get, branchName, "", "", DashboardService.formatter.format(deployTime))
         }
       case Failure(fb) => throw new RuntimeException
     }

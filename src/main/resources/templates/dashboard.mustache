@@ -18,13 +18,17 @@
     <table class="table">
       <tr class="table__row">
         <th class="table__cell">ホスト</th>
+        <th class="table__cell">ホストグループ</th>
         <th class="table__cell table__cell__branch">ブランチ</th>
+        <th class="table__cell">デプロイユーザ</th>
         <th class="table__cell table__cell__deploytime">デプロイ日時</th>
       </tr>
       {{#.}}
         <tr class="table__row">
           <td class="table__cell">{{hostMachineName}}</td>
+          <td class="table__cell">{{hostGroup}}</td>
           <td class="table__cell table__cell__branch">{{branchName}}</td>
+          <td class="table__cell">{{username}}</td>
           <td class="table__cell table__cell__deploytime">{{deployTime}}</td>
         </tr>
       {{/.}}

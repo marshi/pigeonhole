@@ -19,10 +19,10 @@ class HookController extends Controller {
     val json = payloads match {case Some(p) => JSON.parseFull(p)}
     val map = json.get.asInstanceOf[Map[String, Any]]
     val hostBranchService = new HostBranchService()
-    (map.get("host"), map.get("branch")) match {
-      case (Some(host: String), Some(branch: String)) =>
+    (map.get("host"), map.get("branch"), map.get("hostGroup"), map.get("username")) match {
+      case (Some(host: String), Some(branch: String), Some(hostGroup: String), Some(username: String)) =>
         try {
-          hostBranchService.save(host, branch)
+          hostBranchService.save(host, branch, hostGroup, username)
         } catch {
           case e: Exception => response.internalServerError
         }
