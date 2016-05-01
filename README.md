@@ -20,6 +20,8 @@ CREATE TABLE host_branch
   branch_name character varying(128),
   host_machine_id integer NOT NULL,
   deploy_time timestamp with time zone,
+  host_group character varying(128),
+  username character varying(32),
   CONSTRAINT id PRIMARY KEY (id),
   CONSTRAINT host_branch_host_machine_id_key UNIQUE (host_machine_id)
 )
